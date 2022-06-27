@@ -42,8 +42,22 @@ function erro(){
 
 
 function  enviarmsg(){
-    let promise3 = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages')
-    alert()
+    const menssagem = document.querySelector("input").value
+    console.log(menssagem)
+    const msgfinal = 
+        {
+            from: seunome,
+            to: "Todos",
+            text: menssagem,
+            type: "message"
+        };
+    
+    console.log(msgfinal)
+    document.querySelector("input").value=""
+
+    const promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages',msgfinal)
+    promise.then(carregarmsg)
+    promise.catch(erro)
 }
 
 
@@ -61,7 +75,7 @@ function mostrarmsg(elemento){
             divmsg.innerHTML +=             
             `<li class="entrou">
             <span class="hora margin">(${msg.time})</span>
-            <span class="padrao margin"><strong>${msg.from}</strong></span>
+            <span class="padrao margin "><strong>${msg.from}</strong></span>
             <span class="margin">${msg.text}</span>
             </li>`;
         }
@@ -69,17 +83,17 @@ function mostrarmsg(elemento){
             divmsg.innerHTML +=             
             `<li class="mensagemG">
             <span class="hora margin">(${msg.time})</span>
-            <strong class="margin">${msg.from}</strong>
+            <strong class="margin ">${msg.from}</strong>
             <span class="margin">para</span>
             <strong class="margin">${msg.to}</strong>
-            <span class="texto margin">${msg.text}</span>
+            <span class="texto ">${msg.text}</span>
             </li>`;
         }
-        if(Msgprivada(msg)){
+        if(msg.type==="private_message" && (msg.from===seunome ||msg.to===seunome) ){
             divmsg.innerHTML +=             
             `<li class="mensagemPV">
             <span class="hora">(${msg.time})</span>
-            <span class="padrao texto"><strong>${msg.from}</strong></span>
+            <span class="padrao "><strong>${msg.from}</strong></span>
             <span>reservadamente para</span>
             <span class="padrao texto"><strong>${msg.to}</strong></span>
             <span class="texto">${msg.text}</span>
@@ -87,12 +101,7 @@ function mostrarmsg(elemento){
         }
     }
 }
-function Msgprivada(msg){
-    if(msg.type==="private_mesage" &&  (msg.from === nome || msg.to === nome)){
-        return true
-    }
-    return false
-}
+
 
 
 inserirnome()
