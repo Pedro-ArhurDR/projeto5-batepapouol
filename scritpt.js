@@ -100,8 +100,8 @@ function mostrarmsg(elemento){
             </li>`;
         }
     }
+    document.querySelector(".mensagens").scrollIntoView({block: "end", inline:"end"});
 }
-
 
 
 inserirnome()
